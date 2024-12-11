@@ -1,0 +1,23 @@
+footer {
+	background-color: #0a0220;
+}
+
+.copyright {
+	color: #ffffff;
+	align-self: flex-end;
+}
+
+footer .container {
+	display: flex;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	justify-content: space-between;
+}
+
+footer .logo {
+	transition: all 0.3s ease;
+}
+
+footer .logo:hover {
+	transform: scale(1.1);
+}

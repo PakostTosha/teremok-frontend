@@ -1,0 +1,38 @@
+.nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 7px 55px;
+}
+
+.nav__item a {
+	color: var(--text-color);
+	display: block;
+	transition: all 0.2s ease-in-out;
+}
+
+.nav__item:not(.logo) a {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.nav__item:hover a {
+	transform: scale(1.1);
+	color: var(--first-color);
+}
+
+.user {
+	background-color: var(--first-color);
+	border-radius: 20px;
+	transition: all 0.2s ease-in-out;
+}
+
+.user a {
+	padding: 0 15px;
+	color: #ffffff;
+}
+
+.user:hover {
+	border: 1px solid var(--first-color);
+	background-color: transparent;
+}
