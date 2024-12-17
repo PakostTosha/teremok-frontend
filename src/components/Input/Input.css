@@ -19,7 +19,7 @@
 	color: #000;
 }
 
-.input-container span {
+.input-container .error {
 	display: block;
 	position: absolute;
 	top: 100%;

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import lightLogoImg from "../../img/logo-light.svg";
 import "./Footer.css";
 
@@ -6,9 +7,9 @@ function Footer() {
 	return (
 		<footer>
 			<div className="container">
-				<a className="logo" href="/">
+				<Link className="logo" to="/" title="На главную">
 					<img src={lightLogoImg} alt="Logo" />
-				</a>
+				</Link>
 				<p className="copyright">Teremok - web trainer © {curYear}</p>
 			</div>
 		</footer>

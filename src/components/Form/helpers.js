@@ -8,7 +8,7 @@ export const loginSchema = Yup.object({
 		.min(5, "Небоходимо ввести от 5 до 50 символов")
 		.max(50, '"Небоходимо ввести от 5 до 50 символов"')
 		.required("Введите пароль"),
-});
+}).required();
 
 export const loginInitialValues = {
 	email: "",
@@ -21,15 +21,16 @@ export const registrationSchema = Yup.object({
 		.required("Введите email"),
 	password: Yup.string()
 		.min(5, "Небоходимо ввести от 5 до 50 символов")
-		.max(50, '"Небоходимо ввести от 5 до 50 символов"')
+		.max(50, "Небоходимо ввести от 5 до 50 символов")
 		.required("Введите пароль"),
+	confirmPassword: Yup.string().required("Повторите пароль"),
 	firstName: Yup.string()
 		.min(2, "Введите хотя бы 2 символа")
 		.required("Введите имя"),
 	lastName: Yup.string()
 		.min(2, "Введите хотя бы 2 символа")
 		.required("Введите фамилию"),
-	patronymic: Yup.string().min(2, "Введите хотя бы 2 символа"),
+	patronymic: Yup.string().optional(),
 });
 
 export const registrationInitialValues = {
@@ -38,4 +39,5 @@ export const registrationInitialValues = {
 	firstName: "",
 	lastName: "",
 	patronymic: "",
+	confirmPassword: "",
 };

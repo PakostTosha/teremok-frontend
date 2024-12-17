@@ -1,3 +1,4 @@
+/* основные стили */
 :root {
 	--text-color: #000000;
 	--first-color: #24018f;
@@ -22,6 +23,7 @@ body {
 	width: 80px;
 	height: 70px;
 }
+/* ----------------------------- */
 
 /* чтобы footer находился снизу */
 body,
@@ -35,8 +37,9 @@ html {
 	min-height: 100%;
 	justify-content: space-between;
 }
+/* ----------------------------- */
 
-/* для формы логина и регистрации */
+/* общие стили для формы логина и регистрации */
 .form {
 	display: flex;
 	flex-direction: column;
@@ -45,6 +48,7 @@ html {
 
 .form__title {
 	margin-bottom: 10px;
+	text-align: center;
 	font-size: 32px;
 	font-weight: 700;
 	color: var(--first-color);
@@ -59,6 +63,52 @@ html {
 	padding: 8px 70px;
 }
 
-.button-hovered:hover {
+.form-wrapper .button-hovered:hover {
 	opacity: 0.8;
 }
+
+.form-wrapper {
+	max-width: 650px;
+	background-color: #ffffff;
+
+	border-radius: 24px;
+	box-shadow: 0px 4px 11px rgba(0, 0, 0, 0.25);
+}
+
+.wrapper__content {
+	padding: 20px 80px;
+}
+
+.wrapper__footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 10px 80px 20px;
+}
+
+.form-wrapper::after {
+	content: "";
+	position: absolute;
+}
+
+.border {
+	width: 100%;
+	background-image: url("/src/img/border-dashed.svg");
+	background-position: center;
+	height: 1px;
+}
+
+.footer__title {
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+.footer__button {
+	color: #fefefe;
+	font-size: 24px;
+	font-weight: 700;
+	background: #8ee2e2;
+	border-radius: 24px;
+	padding: 8px 20px;
+}
+/* ----------------------------- */

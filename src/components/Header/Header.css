@@ -36,3 +36,13 @@
 	border: 1px solid var(--first-color);
 	background-color: transparent;
 }
+
+.logout img {
+	display: block;
+	width: 30px;
+	height: 30px;
+}
+
+.logout a {
+	padding: 5px 10px;
+}
