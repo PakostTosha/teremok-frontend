@@ -1,52 +1,61 @@
-import { Formik, Form, useFormik } from "formik";
-import Input from "../../components/Input/Input";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { loginInitialValues, loginSchema } from "../../components/Form/helpers";
+import Input from "../../components/Input/Input";
 import "./Login.css";
+import { Link } from "react-router-dom";
 
 function Login() {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		defaultValues: loginInitialValues,
+		mode: "onChange",
+		resolver: yupResolver(loginSchema),
+	});
+
+	// В дальнейшем
+	const onSubmit = (data) => {
+		alert(JSON.stringify(data, null, 2));
+		// В дальнейшем данные "data" отправляются на сервер для авторизации
+		// ...
+	};
+
 	return (
 		<div className="form-wrapper">
-			<div className="login__content">
-				<Formik
-					initialValues={loginInitialValues}
-					validationSchema={loginSchema}
-					onSubmit={(values, { setSubmitting }) => {
-						setTimeout(() => {
-							alert(JSON.stringify(values, null, 2));
-							setSubmitting(false);
-						}, 400);
-					}}
-				>
-					<Form className="login__form form">
-						<h1 className="form__title">Введите логин и пароль для входа</h1>
-						<Input
-							id={"email"}
-							label={"Логин (почта, которую указывали при регистрации)"}
-							name={"email"}
-							placeholder={"Ваша почта"}
-							type={"email"}
-						/>
-						<Input
-							id={"password"}
-							label={"Пароль (от 5 до 50 символов)"}
-							name={"password"}
-							placeholder={"Пароль"}
-							type={"password"}
-						/>
-						<button type="submit" className="form__button button-hovered">
-							Войти
-						</button>
-					</Form>
-				</Formik>
+			<div className="wrapper__content">
+				<form className="login__form form" onSubmit={handleSubmit(onSubmit)}>
+					<h1 className="form__title">Введите логин и пароль для входа</h1>
+					<Input
+						name="email"
+						labelText="Логин (почта, которую указывали при регистрации)"
+						placeholder="Введите почту"
+						register={register}
+						errors={errors}
+					/>
+					<Input
+						name="password"
+						labelText={"Пароль"}
+						placeholder={"Введите пароль"}
+						register={register}
+						errors={errors}
+						type={"password"}
+					/>
+					<button type="submit" className="form__button button-hovered">
+						Войти
+					</button>
+				</form>
 			</div>
 			<div className="border"></div>
-			<div className="login__footer footer">
+			<div className="wrapper__footer footer">
 				<div className="footer__title">
 					У вас еще нет своего профиля? Регистрируйтесь по кнопке ниже!
 				</div>
-				<a href="/" className="footer__button button-hovered">
+				<Link to="/registr" className="footer__button button-hovered">
 					Регистрация
-				</a>
+				</Link>
 			</div>
 		</div>
 	);
