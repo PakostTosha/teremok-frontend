@@ -6,8 +6,25 @@ import Main from "./pages/Main/Main.jsx";
 import Registration from "./pages/Registr/Registration.jsx";
 import NotFound from "./pages/NotFound/NotFound.jsx";
 import Wombat from "./pages/Wombat/Wombat.jsx";
+import { useState } from "react";
 
 function App() {
+	// Данные пользователя
+	const [user, setUser] = useState({});
+	// Информация об аутентификации
+	const [isAuth, setIsAuth] = useState(false);
+	// Аутентификация пользователя
+	const authentification = () => {
+		console.log("test");
+		// Проверить наличие JWT токена в localStorage
+		// При отсутствии токена - удалить поле с токеном, очистить состояния пользователя, выйти из функции
+		// При наличии JWT - отправить запрос аутентификации по JWT на сервер "/auth"
+		// Ответ - ошибка, значит очищаем состояние, выходим из функции
+		// Ответ с данными о пользователе и полученным токеном
+		// Сохранить токен в localStorage
+		// Сохранить актуальную информацию о пользователе и аутентификации
+	};
+
 	return (
 		<BrowserRouter>
 			{/* Шапка */}
@@ -26,7 +43,7 @@ function App() {
 					{/* Тренажёр */}
 					{/* <Route path="/..." element={< />} /> */}
 
-					{/* Войти */}
+					{/* Авторизация, регистрация, личный кабинет */}
 					<Route path="/login" element={<Login />} />
 					<Route path="/registr" element={<Registration />} />
 					{/* <Route path="/profile" element={< />} /> */}
