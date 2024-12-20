@@ -7,7 +7,8 @@ import {
 import Input from "../../components/Input/Input";
 import "./Registration.css";
 import "../Login/Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../components/AuthContext/AuthContext";
 
 function Registration() {
 	const {
@@ -40,6 +41,22 @@ function Registration() {
 		// В дальнейшем данные "data" отправляются на сервер для регистрации
 		// ...
 	};
+
+	const navigate = useNavigate();
+	const { isAuth } = useAuth();
+
+	// Для УЖЕ авторизованного пользователя - переадресация на главный экран с alert уведомлением
+	if (isAuth) {
+		setTimeout(() => navigate("/"), 3000);
+		return (
+			<div>
+				<h2 className="title">Вы уже авторизованы!</h2>
+				<div className="message">Переадресация через 3 секунды...</div>
+			</div>
+			// Модальное окно
+			// <ModalWindow title={"Вы уже авторизованы!"} message={"Переадресация..."} />
+		);
+	}
 
 	return (
 		<div className="form-wrapper registration">

@@ -3,9 +3,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginInitialValues, loginSchema } from "../../components/Form/helpers";
 import Input from "../../components/Input/Input";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../components/AuthContext/AuthContext";
 
 function Login() {
+	const navigate = useNavigate();
+	const { isAuth } = useAuth();
+
 	const {
 		register,
 		handleSubmit,
@@ -22,6 +26,19 @@ function Login() {
 		// В дальнейшем данные "data" отправляются на сервер для авторизации
 		// ...
 	};
+
+	// Для УЖЕ авторизованного пользователя - переадресация на главный экран с alert уведомлением
+	if (isAuth) {
+		setTimeout(() => navigate("/"), 3000);
+		return (
+			<div>
+				<h2 className="title">Вы уже авторизованы!</h2>
+				<div className="message">Переадресация через 3 секунды...</div>
+			</div>
+			// Модальное окно
+			// <ModalWindow title={"Вы уже авторизованы!"} message={"Переадресация..."} />
+		);
+	}
 
 	return (
 		<div className="form-wrapper">
