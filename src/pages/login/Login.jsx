@@ -5,15 +5,18 @@ import Input from "../../components/Input/Input";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../components/AuthContext/AuthContext";
+import axios from "axios";
+import { useEffect } from "react";
 
 function Login() {
 	const navigate = useNavigate();
-	const { isAuth } = useAuth();
+	const { isAuth, login } = useAuth();
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
+		setError,
 	} = useForm({
 		defaultValues: loginInitialValues,
 		mode: "onChange",
@@ -21,10 +24,32 @@ function Login() {
 	});
 
 	// В дальнейшем
-	const onSubmit = (data) => {
-		alert(JSON.stringify(data, null, 2));
-		// В дальнейшем данные "data" отправляются на сервер для авторизации
-		// ...
+	const onSubmit = async (data) => {
+		await axios
+			.post("http://localhost:4444/login", data)
+			.then((res) => {
+				// Вытаскиваем user
+				const user = res.data.user;
+				// Вытаскиваем JWT
+				const JWT = res.data.tokenJWT;
+				// Выполнить login(user), которая передаст данные пользователя и сменит isAuth = true
+				login(user);
+				// Сохранить JWT в localStorage
+				window.localStorage.setItem("Authorization", JWT);
+				alert("Авторизация выполнена успешно. Добро пожаловать!");
+				// Переадресация авторизовнного пользователя на главную страницу
+				navigate("/");
+				console.log(res.data);
+			})
+			.catch((axiosErr) => {
+				alert("Во время авторизации произошла ошибка.");
+				// Добавить поле для отображения ошибки?
+				// Установить сообщение в поле ошибки при помощи React-Hook-Form
+				setError("server", {
+					message: "Не удалось получить корректный ответ от сервера",
+				});
+				console.log("Не удалось получить корректный ответ от сервера");
+			});
 	};
 
 	// Для УЖЕ авторизованного пользователя - переадресация на главный экран с alert уведомлением
@@ -60,6 +85,12 @@ function Login() {
 						errors={errors}
 						type={"password"}
 					/>
+					{/* Поле с условным рендером для отображения ошибки, если та возникает в процессе авторизации */}
+					{errors.server && (
+						<div style={{ color: "red", marginBottom: "10px" }}>
+							<p>{errors.server.message}</p>
+						</div>
+					)}
 					<button type="submit" className="form__button button-hovered">
 						Войти
 					</button>

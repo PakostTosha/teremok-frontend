@@ -3,7 +3,6 @@ import cleverImg from "../../img/clever.png";
 
 function Main() {
 	return (
-		// <div className="container">
 		<section className="main">
 			<div className="main__info">
 				<h1 className="main__title title">

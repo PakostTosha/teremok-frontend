@@ -9,6 +9,7 @@ import "./Registration.css";
 import "../Login/Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../components/AuthContext/AuthContext";
+import axios from "axios";
 
 function Registration() {
 	const {
@@ -23,8 +24,9 @@ function Registration() {
 		resolver: yupResolver(registrationSchema),
 	});
 
-	// В дальнейшем доработать функцию с отправкой данных на бэкенд
+	// Обработчик отправки данных формы
 	const onSubmit = (data) => {
+		// Проверка двух введённых паролей
 		const { password, confirmPassword } = data;
 		if (password !== confirmPassword) {
 			["confirmPassword", "password"].forEach((name) => {
@@ -38,8 +40,22 @@ function Registration() {
 			return;
 		}
 		alert(JSON.stringify(data, null, 2));
-		// В дальнейшем данные "data" отправляются на сервер для регистрации
-		// ...
+		// Запрос на сервер на регистрацию пользователя
+		axios
+			.post("http://localhost:4444/registr", data)
+			.then((res) => {
+				alert("Регистраци прошла успешно! Необходимо войти в личный кабинет");
+				console.log(res);
+				navigate("/login");
+			})
+			.catch((axiosErr) => {
+				alert("Во время регистрации произошла ошибка.");
+				// Добавить поле для отображения ошибки? (вдруг введённый email уже существует и прочее)
+				// Установить сообщение в поле ошибки при помощи React-Hook-Form
+
+				setError("server", { message: axiosErr.response.data.errors[0].msg });
+				console.log(axiosErr);
+			});
 	};
 
 	const navigate = useNavigate();
@@ -109,6 +125,12 @@ function Registration() {
 					/>
 					{/* Опционально: добавить загрузку файла аватарки на сервер */}
 
+					{/* Поле с условным рендером для отображения ошибки, если та возникает в процессе авторизации */}
+					{errors.server && (
+						<div style={{ color: "red" }}>
+							<p>{errors.server.message}</p>
+						</div>
+					)}
 					<button type="submit" className="form__button button-hovered">
 						Зарегистрироваться
 					</button>

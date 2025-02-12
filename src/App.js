@@ -8,26 +8,27 @@ import NotFound from "./pages/NotFound/NotFound.jsx";
 import Wombat from "./pages/Wombat/Wombat.jsx";
 import { createContext, useEffect, useState } from "react";
 import { AuthProvider } from "./components/AuthContext/AuthContext.js";
+import UserProfile from "./pages/User/User.jsx";
 
 function App() {
-	// Данные пользователя
-	const [user, setUser] = useState({});
-	// Информация об аутентификации
-	const [isAuth, setIsAuth] = useState(false);
-	// Аутентификация пользователя
-	const authentification = () => {
-		console.log("test");
-		// 1. Проверить наличие JWT токена в localStorage
-		// При отсутствии токена - удалить поле с токеном, очистить состояния пользователя, выйти из функции
-		// При наличии JWT - отправить запрос аутентификации по JWT на сервер "/auth"
-		// Ответ - ошибка, значит очищаем состояние, выходим из функции
-		// Ответ с данными о пользователе и полученным токеном
-		// Сохранить токен в localStorage
-		// Сохранить актуальную информацию о пользователе и аутентификации
-	};
-	useEffect(() => {
-		authentification();
-	}, []);
+	// // Данные пользователя
+	// const [user, setUser] = useState({});
+	// // Информация об аутентификации
+	// const [isAuth, setIsAuth] = useState(false);
+	// // Аутентификация пользователя
+	// const authentification = () => {
+	// 	console.log("test");
+	// 	// 1. Проверить наличие JWT токена в localStorage
+	// 	// При отсутствии токена - удалить поле с токеном, очистить состояния пользователя, выйти из функции
+	// 	// При наличии JWT - отправить запрос аутентификации по JWT на сервер "/auth"
+	// 	// Ответ - ошибка, значит очищаем состояние, выходим из функции
+	// 	// Ответ с данными о пользователе и полученным токеном
+	// 	// Сохранить токен в localStorage
+	// 	// Сохранить актуальную информацию о пользователе и аутентификации
+	// };
+	// useEffect(() => {
+	// 	authentification();
+	// }, []);
 
 	return (
 		<AuthProvider>
@@ -83,6 +84,7 @@ function App() {
 						{/* Авторизация, регистрация, личный кабинет */}
 						<Route path="/login" element={<Login />} />
 						<Route path="/registr" element={<Registration />} />
+						<Route path="/user" element={<UserProfile />} />
 						{/* ------------------------------------------------------- */}
 					</Routes>
 				</div>
