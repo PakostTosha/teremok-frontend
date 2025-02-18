@@ -1,12 +1,14 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginInitialValues, loginSchema } from "../../components/Form/helpers";
+import {
+	loginInitialValues,
+	loginSchema,
+} from "../../components/YupValidation/helpers";
 import Input from "../../components/Input/Input";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../components/AuthContext/AuthContext";
 import axios from "axios";
-import { useEffect } from "react";
 
 function Login() {
 	const navigate = useNavigate();
@@ -39,10 +41,10 @@ function Login() {
 				alert("Авторизация выполнена успешно. Добро пожаловать!");
 				// Переадресация авторизовнного пользователя на главную страницу
 				navigate("/");
-				console.log(res.data);
+				// console.log(res.data);
 			})
 			.catch((axiosErr) => {
-				alert("Во время авторизации произошла ошибка.");
+				alert("Во время авторизации произошла ошибка.", axiosErr);
 				// Добавить поле для отображения ошибки?
 				// Установить сообщение в поле ошибки при помощи React-Hook-Form
 				setError("server", {

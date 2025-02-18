@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import {
 	registrationInitialValues,
 	registrationSchema,
-} from "../../components/Form/helpers";
+} from "../../components/YupValidation/helpers";
 import Input from "../../components/Input/Input";
 import "./Registration.css";
 import "../Login/Login.css";
@@ -44,9 +44,14 @@ function Registration() {
 		axios
 			.post("http://localhost:4444/registr", data)
 			.then((res) => {
-				alert("Регистраци прошла успешно! Необходимо войти в личный кабинет");
-				console.log(res);
-				navigate("/login");
+				if (res.statusText === "OK") {
+					alert("Регистраци прошла успешно! Необходимо войти в личный кабинет");
+					navigate("/login");
+				} else {
+					alert("Ошибка во время регистрации.");
+					console.error(res);
+					setError("server", { message: res.data.errors[0].msg });
+				}
 			})
 			.catch((axiosErr) => {
 				alert("Во время регистрации произошла ошибка.");

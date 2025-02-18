@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import "yup-phone-lite";
 
 export const loginSchema = Yup.object({
 	email: Yup.string()
@@ -42,5 +43,29 @@ export const registrationInitialValues = {
 	confirmPassword: "",
 };
 
-// Схема валидации изменённых данных в профиле пользователя (опционально)
-// Схема валидации данных о ребёнке также в профиле родителя (опицонально)
+// Схема валидации изменённых данных в профиле пользователя
+export const profileSchema = Yup.object({
+	email: Yup.string()
+		.email("Неверный формат email. Пример: example@mail.ru")
+		.required("Введите email"),
+	firstName: Yup.string()
+		.min(2, "Введите хотя бы 2 символа")
+		.required("Введите имя"),
+	lastName: Yup.string()
+		.min(2, "Введите хотя бы 2 символа")
+		.required("Введите фамилию"),
+	patronymic: Yup.string().optional(),
+	telephone: Yup.string()
+		.phone("RU", "Неверный формат номера телефона")
+		.optional(),
+});
+// Схема валидации данных о ребёнке также в профиле родителя
+export const childSchema = Yup.object({
+	firstName: Yup.string()
+		.min(2, "Введите хотя бы 2 символа")
+		.required("Введите имя"),
+	lastName: Yup.string()
+		.min(2, "Введите хотя бы 2 символа")
+		.required("Введите фамилию"),
+	patronymic: Yup.string().optional(),
+});
