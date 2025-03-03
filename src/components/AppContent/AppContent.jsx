@@ -7,8 +7,12 @@ import Registration from "../../pages/Registr/Registration.jsx";
 import NotFound from "../../pages/NotFound/NotFound.jsx";
 import Wombat from "../../pages/Wombat/Wombat.jsx";
 import UserProfile from "../../pages/User/UserProfile.jsx";
+import { useAuth } from "../AuthContext/AuthContext.js";
+import Loading from "../Loading/Loading.jsx";
 
 function AppContent() {
+	const { isLoading } = useAuth();
+	if (isLoading) return <Loading />;
 	return (
 		<BrowserRouter>
 			{/* Шапка */}

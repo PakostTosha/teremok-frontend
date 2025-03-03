@@ -20,3 +20,8 @@
 	font-size: 16px;
 	color: #f00;
 }
+
+.field .disabled {
+	color: rgb(118, 118, 118);
+	cursor: not-allowed;
+}

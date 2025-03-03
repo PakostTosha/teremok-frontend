@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { childSchema } from "../YupValidation/helpers";
 import axios from "axios";
+import { useAuth } from "../AuthContext/AuthContext";
 
 function ChildForm({ mode, setTypeUserForm, selectedChild }) {
 	// Для компонентов профиля ребёнка и родителя понадобатся useForm
@@ -16,6 +17,8 @@ function ChildForm({ mode, setTypeUserForm, selectedChild }) {
 		resolver: yupResolver(childSchema),
 	});
 
+	const { setIsLoading, setUser } = useAuth();
+
 	const onSubmit = async (childInfoData) => {
 		if (window.confirm("Уверены, что хотите сохранить изменения?")) {
 			// Сервер ожидает:
@@ -27,6 +30,34 @@ function ChildForm({ mode, setTypeUserForm, selectedChild }) {
 			// Собирается инфа и отправляется на сервер post запросом об обновлении записи
 			const { firstName, lastName, patronymic, _id: childId } = childInfoData;
 			const changedChild = { firstName, lastName, patronymic, childId };
+			setIsLoading(true);
+			const statistic = {
+				cards: {
+					count: 0,
+					types: [
+						{
+							id: 0,
+							collected: 0,
+						},
+						{
+							id: 1,
+							collected: 0,
+						},
+						{
+							id: 2,
+							collected: 0,
+						},
+						{
+							id: 3,
+							collected: 0,
+						},
+						{
+							id: 4,
+							collected: 0,
+						},
+					],
+				},
+			};
 
 			// Не работает из-за того, что в req.headers.Authorization не передаётся JWT
 			mode === "change"
@@ -47,39 +78,16 @@ function ChildForm({ mode, setTypeUserForm, selectedChild }) {
 							console.error(err);
 							alert("Во время сохранения изменений возникла ошибка");
 						})
+						.finally(() => {
+							setIsLoading(false);
+							setUser(null);
+						})
 				: await axios
 						.post(
 							"http://localhost:4444/addChild",
 							{
 								...changedChild,
-								...selectedChild,
-								// statistic: {
-								// 	cards: {
-								// 		count: 0,
-								// 		types: [
-								// 			{
-								// 				id: 0,
-								// 				collected: 0,
-								// 			},
-								// 			{
-								// 				id: 1,
-								// 				collected: 0,
-								// 			},
-								// 			{
-								// 				id: 2,
-								// 				collected: 0,
-								// 			},
-								// 			{
-								// 				id: 3,
-								// 				collected: 0,
-								// 			},
-								// 			{
-								// 				id: 4,
-								// 				collected: 0,
-								// 			},
-								// 		],
-								// 	},
-								// },
+								statistic,
 							},
 							{
 								headers: {
@@ -91,12 +99,15 @@ function ChildForm({ mode, setTypeUserForm, selectedChild }) {
 							if (req.statusText === "OK") {
 								alert("Запись о ребёнке успешно зарегистрирована!");
 								setTypeUserForm("parent");
-								console.log(req.data);
 							} else alert("Не удалось зарегистрирова запись ребёнка");
 						})
 						.catch((err) => {
 							console.error(err);
 							alert("Во время регистрации ребёнка возникла ошибка");
+						})
+						.finally(() => {
+							setIsLoading(false);
+							setUser(null);
 						});
 		}
 	};
@@ -107,26 +118,26 @@ function ChildForm({ mode, setTypeUserForm, selectedChild }) {
 				"Уверены, что хотите безвозвратно удалить запись о данном ребёнке?"
 			)
 		) {
-			console.log(selectedChild._id);
-			// запрос на удаление профиля на бэк
-			// при первом нажатии - запрос со статусом 400
-			// при втором нажатии - запрос успешный
-			// опять виновато состояние???
+			setIsLoading(true);
 			await axios
 				.delete(`http://localhost:4444/deleteChild/${selectedChild._id}`, {
 					headers: {
 						Authorization: window.localStorage.getItem("Authorization"),
 					},
 				})
-				.then((req) => {
-					if (req.statusText === "OK") {
+				.then((res) => {
+					if (res.statusText === "OK") {
 						alert("Данные ребёнка успешно удалены!");
+						setUser(null);
 						setTypeUserForm("parent");
 					} else alert("Не удалось удалить данные");
 				})
 				.catch((err) => {
 					console.error(err);
 					alert("Во время удаления данных возникла ошибка");
+				})
+				.finally(() => {
+					setIsLoading(false);
 				});
 		}
 	};

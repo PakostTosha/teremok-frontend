@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
 	// Состояние аутентификации пользователя (по умолчанию - не аутентифицирован)
 	const [isAuth, setIsAuth] = useState(false);
 	// Состояние загрузки/выполнения запроса
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 	// Состояние обновления данных, при которых повторяется запрос на получение актуальной записи о пользователе
 	const [isDataUpdated, setIsDataUpdated] = useState(false);
 
@@ -25,7 +25,6 @@ export const AuthProvider = ({ children }) => {
 	const logout = () => {
 		setUser(null);
 		setIsAuth(false);
-		setIsLoading(true);
 		window.localStorage.removeItem("Authorization");
 	};
 
@@ -35,6 +34,7 @@ export const AuthProvider = ({ children }) => {
 			try {
 				const localStorageJWT = window.localStorage.getItem("Authorization");
 				if (localStorageJWT) {
+					setIsLoading(true);
 					// Запрос на аутентификацию пользователя по ключу
 					axios
 						.get("http://localhost:4444/profile", {
@@ -47,33 +47,39 @@ export const AuthProvider = ({ children }) => {
 						.catch((err) => {
 							console.log(err);
 							logout();
+						})
+						.finally(() => {
+							setIsLoading(false);
 						});
 				}
 			} catch (err) {
 				console.log("Ошибка во время получения JWT");
+				setIsLoading(false);
 			}
 		}
-		setIsLoading(false);
-		setIsDataUpdated(false);
-	}, [isDataUpdated]);
+	}, [user]);
 
-	return (
-		<AuthContext.Provider
-			value={{
-				user,
-				isAuth,
-				isLoading,
-				login,
-				logout,
-				setIsLoading,
-				setUser,
-				setIsDataUpdated,
-			}}
-		>
-			{/* Отображает лоудер при статусе "загрузка" */}
-			{isLoading ? <Loading /> : children}
-		</AuthContext.Provider>
-	);
+	if (isLoading) {
+		return <Loading />;
+	} else {
+		return (
+			<AuthContext.Provider
+				value={{
+					user,
+					setUser,
+					isAuth,
+					isLoading,
+					setIsLoading,
+					isDataUpdated,
+					setIsDataUpdated,
+					login,
+					logout,
+				}}
+			>
+				{children}
+			</AuthContext.Provider>
+		);
+	}
 };
 
 export const useAuth = () => {

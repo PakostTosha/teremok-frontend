@@ -19,6 +19,7 @@ function ProfileField({
 				type={type}
 				value={value}
 				disabled={name === "email"}
+				className={name === "email" ? "disabled" : ""}
 			/>
 			<span className="error">{errors[name]?.message}</span>
 		</div>

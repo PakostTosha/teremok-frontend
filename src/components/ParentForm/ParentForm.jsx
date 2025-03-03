@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import ProfileField from "../ProfileField/ProfileField";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { profileSchema } from "../YupValidation/helpers";
-import { useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../AuthContext/AuthContext";
 
@@ -18,41 +17,25 @@ function ParentForm({
 		register,
 		handleSubmit,
 		formState: { errors },
-		reset,
 	} = useForm({
 		defaultValues: user,
 		mode: "all",
 		resolver: yupResolver(profileSchema),
 	});
 
-	useEffect(() => {
-		if (user) {
-			reset(user);
-		}
-	}, [user, reset]);
-
-	const { login } = useAuth();
+	const { login, setIsLoading, setUser } = useAuth();
 
 	// Сохранение информации пользователя из формы
 	const saveUserInfo = async (userInfoData) => {
 		if (window.confirm("Уверены, что хотите сохранить изменения?")) {
 			console.log(userInfoData);
-
-			const { firstName, lastName, patronymic, avatarUrl, telephone, _id } =
+			setIsLoading(true);
+			const { _id, createdAt, updatedAt, __v, childrens, ...updatedUser } =
 				userInfoData;
-
-			const changedUser = {
-				firstName,
-				lastName,
-				patronymic,
-				avatarUrl,
-				telephone,
-				_id,
-			};
 
 			// Собирается инфа и отправляется на сервер post запросом об обновлении записи
 			await axios
-				.patch("http://localhost:4444/changeProfile", changedUser, {
+				.patch("http://localhost:4444/changeProfile", updatedUser, {
 					headers: {
 						Authorization: window.localStorage.getItem("Authorization"),
 					},
@@ -66,6 +49,10 @@ function ParentForm({
 				.catch((err) => {
 					console.error(err);
 					alert("Во время сохранения изменений возникла ошибка");
+				})
+				.finally(() => {
+					setIsLoading(false);
+					setUser(null);
 				});
 		}
 	};
@@ -120,7 +107,7 @@ function ParentForm({
 					name={"telephone"}
 					labelText={"Номер телефона"}
 					placeholder={"X-XXX-XXX-XX-XX"}
-					type={"text"}
+					type={"tel"}
 					// value={user.lastName} заменяется на initialValue
 					register={register}
 					errors={errors}
@@ -160,7 +147,7 @@ function ParentForm({
 					</select>
 				) : (
 					<select className="children-list" id="children-list" disabled>
-						<option selected>Нет зарегистрированных детей</option>
+						<option>Нет зарегистрированных детей</option>
 					</select>
 				)}
 				<div className="child-buttons">
