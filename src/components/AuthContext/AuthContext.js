@@ -13,6 +13,8 @@ export const AuthProvider = ({ children }) => {
 	const [isAuth, setIsAuth] = useState(false);
 	// Состояние загрузки/выполнения запроса
 	const [isLoading, setIsLoading] = useState(true);
+	// Состояние обновления данных, при которых повторяется запрос на получение актуальной записи о пользователе
+	const [isDataUpdated, setIsDataUpdated] = useState(false);
 
 	// Вспомогательные функции управления состояниями
 	const login = (userData) => {
@@ -52,11 +54,21 @@ export const AuthProvider = ({ children }) => {
 			}
 		}
 		setIsLoading(false);
-	}, [user]);
+		setIsDataUpdated(false);
+	}, [isDataUpdated]);
 
 	return (
 		<AuthContext.Provider
-			value={{ user, isAuth, isLoading, login, logout, setIsLoading }}
+			value={{
+				user,
+				isAuth,
+				isLoading,
+				login,
+				logout,
+				setIsLoading,
+				setUser,
+				setIsDataUpdated,
+			}}
 		>
 			{/* Отображает лоудер при статусе "загрузка" */}
 			{isLoading ? <Loading /> : children}

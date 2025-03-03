@@ -40,6 +40,7 @@ function ChildForm({ mode, setTypeUserForm, selectedChild }) {
 							if (req.statusText === "OK") {
 								alert("Данные успешно сохранены!");
 								setTypeUserForm("parent");
+								console.log(req);
 							} else alert("Не удалось сохранить данные");
 						})
 						.catch((err) => {
@@ -51,33 +52,34 @@ function ChildForm({ mode, setTypeUserForm, selectedChild }) {
 							"http://localhost:4444/addChild",
 							{
 								...changedChild,
-								statistic: {
-									cards: {
-										count: 0,
-										types: [
-											{
-												id: 0,
-												collected: 0,
-											},
-											{
-												id: 1,
-												collected: 0,
-											},
-											{
-												id: 2,
-												collected: 0,
-											},
-											{
-												id: 3,
-												collected: 0,
-											},
-											{
-												id: 4,
-												collected: 0,
-											},
-										],
-									},
-								},
+								...selectedChild,
+								// statistic: {
+								// 	cards: {
+								// 		count: 0,
+								// 		types: [
+								// 			{
+								// 				id: 0,
+								// 				collected: 0,
+								// 			},
+								// 			{
+								// 				id: 1,
+								// 				collected: 0,
+								// 			},
+								// 			{
+								// 				id: 2,
+								// 				collected: 0,
+								// 			},
+								// 			{
+								// 				id: 3,
+								// 				collected: 0,
+								// 			},
+								// 			{
+								// 				id: 4,
+								// 				collected: 0,
+								// 			},
+								// 		],
+								// 	},
+								// },
 							},
 							{
 								headers: {
@@ -89,6 +91,7 @@ function ChildForm({ mode, setTypeUserForm, selectedChild }) {
 							if (req.statusText === "OK") {
 								alert("Запись о ребёнке успешно зарегистрирована!");
 								setTypeUserForm("parent");
+								console.log(req.data);
 							} else alert("Не удалось зарегистрирова запись ребёнка");
 						})
 						.catch((err) => {
