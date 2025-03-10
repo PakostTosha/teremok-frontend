@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { profileSchema } from "../YupValidation/helpers";
 import axios from "axios";
 import { useAuth } from "../AuthContext/AuthContext";
+import ChildList from "../ChildList/ChildList";
 
 function ParentForm({
 	user,
@@ -128,28 +129,7 @@ function ParentForm({
 			</form>
 			<div className="children-info">
 				<h2>Список ваших зарегистрированных детей:</h2>
-				{/* Если есть хоть 1 ребёнок - выпадающий список, иначе - список выключен */}
-				{childrens.length > 0 ? (
-					<select
-						className="children-list"
-						id="children-list"
-						defaultValue={selectedChild}
-					>
-						{/* В объекте пользователя обращаемся к массиву детей */}
-						{childrens.map((elem, index) => {
-							return (
-								<option
-									key={index}
-									value={index}
-								>{`${elem.lastName} ${elem.firstName} ${elem.patronymic}`}</option>
-							);
-						})}
-					</select>
-				) : (
-					<select className="children-list" id="children-list" disabled>
-						<option>Нет зарегистрированных детей</option>
-					</select>
-				)}
+				<ChildList childrens={childrens} />
 				<div className="child-buttons">
 					<button
 						className="profile-button change-child"

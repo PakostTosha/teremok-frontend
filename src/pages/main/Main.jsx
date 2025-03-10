@@ -62,7 +62,6 @@ function Main() {
 				</div>
 			</div>
 		</section>
-		// </div>
 	);
 }
 

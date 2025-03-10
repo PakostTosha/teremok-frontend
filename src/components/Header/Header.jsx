@@ -26,18 +26,18 @@ function Header() {
 			<div className="container">
 				<ul className="nav">
 					<li className="nav__item logo">
-						<Link to="/" title="На главную">
+						<Link to="/main" title="На главную">
 							<img src={darkLogoImg} alt="Logo" />
 						</Link>
 					</li>
 					<li className="nav__item">
-						<Link to="/">Инструкция по тренажеру</Link>
+						<Link to="/instruction">Инструкция по тренажеру</Link>
 					</li>
 					<li className="nav__item">
-						<Link to="/">Методические указания</Link>
+						<Link to="/methodics">Методические указания</Link>
 					</li>
 					<li className="nav__item">
-						<Link to="/">Тренажер</Link>
+						<Link to="/trainer">Тренажер</Link>
 					</li>
 					{/* Условный рендер навигации для авторизованных пользователей */}
 					{user ? (

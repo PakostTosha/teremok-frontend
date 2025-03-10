@@ -36,7 +36,6 @@ function UserProfile() {
 			);
 			break;
 		default:
-			// setIsDataUpdated(true);
 			break;
 	}
 

@@ -9,6 +9,9 @@ import Wombat from "../../pages/Wombat/Wombat.jsx";
 import UserProfile from "../../pages/User/UserProfile.jsx";
 import { useAuth } from "../AuthContext/AuthContext.js";
 import Loading from "../Loading/Loading.jsx";
+import Trainer from "../../pages/Trainer/Trainer.jsx";
+import Methodics from "../../pages/Methodics/Methodics.jsx";
+import Instruction from "../../pages/Instruction/Instruction.jsx";
 
 function AppContent() {
 	const { isLoading } = useAuth();
@@ -19,14 +22,8 @@ function AppContent() {
 			<Header />
 			<div className="container">
 				<Routes>
-					{/* Главная */}
-					<Route path="/" element={<Main />} />
-
-					{/* Инструкция по тренажёру */}
-					{/* <Route path="/..." element={< />} /> */}
-
-					{/* Методические указания */}
-					{/* <Route path="/..." element={< />} /> */}
+					{/* Переадресация */}
+					<Route path="/" element={<Navigate to="/main" />} />
 
 					{/* Сраница не найдена */}
 					<Route path="/notfound" element={<NotFound />} />
@@ -34,12 +31,21 @@ function AppContent() {
 					{/* Найденный вомбат */}
 					<Route path="/wombat" element={<Wombat />} />
 
+					{/* Главная */}
+					<Route path="/main" element={<Main />} />
+
+					{/* Инструкция по тренажёру */}
+					<Route path="/instruction" element={<Instruction />} />
+
+					{/* Методические указания */}
+					<Route path="/methodics" element={<Methodics />} />
+
 					{/** Тренажёр
 						TODO: 
 						1) Главная страница тренажёра недоступен, если пользователь неавторизован (страница с сообщением о необходимости авторизации)
 						2) Нет доступа для последующих страниц/компонентов, используемых в тренажёре (зависит от реализации работы функционала тренажёра). Если части тренажёра - компоненты, то необходимо хорошо проработать условный рендер этих компонентов, иначе части тренажёра - страницы, тогда необходимо описать приватные роуты для этих страниц (доступны, если пользователь авторизован)
 						 */}
-					{/* <Route path="/..." element={< />} /> */}
+					<Route path="/trainer" element={<Trainer />} />
 
 					{/* ------------------------------------------------------- */}
 					{/* Приватные роуты (профиль и тд) 
@@ -47,7 +53,7 @@ function AppContent() {
 						Описание компонента:
 						---------------------------------
 						const PrivateRoute = ({ element, ...rest }) => {
-							const { isAuthenticated } = useAuth();
+							const { isAuth } = useAuth();
 							return (
 								<Route
 									{...rest}
@@ -66,12 +72,7 @@ function AppContent() {
 					{/* Авторизация, регистрация, личный кабинет */}
 					<Route path="/login" element={<Login />} />
 					<Route path="/registr" element={<Registration />} />
-					<Route path="/user" element={<UserProfile />}>
-						{/* Зарегистрировать ребёнка */}
-						<Route path="/user/addChild" element={<UserProfile />} />
-						{/* Изменить данные ребёнка */}
-						<Route path="/user/changeChildInfo" element={<UserProfile />} />
-					</Route>
+					<Route path="/user" element={<UserProfile />} />
 					{/* ------------------------------------------------------- */}
 				</Routes>
 			</div>

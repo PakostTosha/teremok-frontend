@@ -9,11 +9,11 @@ import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../components/AuthContext/AuthContext";
 import axios from "axios";
+import { useEffect } from "react";
 
 function Login() {
 	const navigate = useNavigate();
 	const { isAuth, login } = useAuth();
-
 	const {
 		register,
 		handleSubmit,
@@ -24,6 +24,25 @@ function Login() {
 		mode: "onChange",
 		resolver: yupResolver(loginSchema),
 	});
+
+	// Для УЖЕ авторизованного пользователя - переадресация на главный экран с alert уведомлением
+	useEffect(() => {
+		const timerId = setTimeout(() => {
+			navigate("/main");
+		}, 3000);
+		return () => clearTimeout(timerId); // Очистка таймера при размонтировании компонента
+	}, [navigate]);
+
+	if (isAuth) {
+		return (
+			<div>
+				<h2 className="title">Вы уже авторизованы!</h2>
+				<div className="message" style={{ textAlign: "center" }}>
+					Переадресация через 3 секунды...
+				</div>
+			</div>
+		);
+	}
 
 	// В дальнейшем
 	const onSubmit = async (data) => {
@@ -40,7 +59,7 @@ function Login() {
 				window.localStorage.setItem("Authorization", JWT);
 				alert("Авторизация выполнена успешно. Добро пожаловать!");
 				// Переадресация авторизовнного пользователя на главную страницу
-				navigate("/");
+				navigate("/main");
 				// console.log(res.data);
 			})
 			.catch((axiosErr) => {
@@ -53,19 +72,6 @@ function Login() {
 				console.log("Не удалось получить корректный ответ от сервера");
 			});
 	};
-
-	// Для УЖЕ авторизованного пользователя - переадресация на главный экран с alert уведомлением
-	if (isAuth) {
-		setTimeout(() => navigate("/"), 3000);
-		return (
-			<div>
-				<h2 className="title">Вы уже авторизованы!</h2>
-				<div className="message">Переадресация через 3 секунды...</div>
-			</div>
-			// Модальное окно
-			// <ModalWindow title={"Вы уже авторизованы!"} message={"Переадресация..."} />
-		);
-	}
 
 	return (
 		<div className="form-wrapper">
