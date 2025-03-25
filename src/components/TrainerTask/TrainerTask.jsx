@@ -59,7 +59,8 @@ function TrainerTask({ setActiveComponent, setSelectedTaskType }) {
 						</label>
 					</div>
 				</li>
-				<li className="task-wrapper">
+				{/* Функционал для ВКР */}
+				{/* <li className="task-wrapper">
 					<input
 						className="task-radiobutton"
 						type="radio"
@@ -98,7 +99,7 @@ function TrainerTask({ setActiveComponent, setSelectedTaskType }) {
 							</p>
 						</label>
 					</div>
-				</li>
+				</li> */}
 			</ul>
 			<p className="info">
 				<span className="selected">Важно!</span> После нажатия кнопки "Начать" будет

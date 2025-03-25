@@ -27,9 +27,12 @@ function Login() {
 
 	// Для УЖЕ авторизованного пользователя - переадресация на главный экран с alert уведомлением
 	useEffect(() => {
-		const timerId = setTimeout(() => {
-			navigate("/main");
-		}, 3000);
+		let timerId;
+		if (isAuth) {
+			timerId = setTimeout(() => {
+				navigate("/main");
+			}, 3000);
+		}
 		return () => clearTimeout(timerId); // Очистка таймера при размонтировании компонента
 	}, [navigate]);
 

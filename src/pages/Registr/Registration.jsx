@@ -39,7 +39,6 @@ function Registration() {
 			});
 			return;
 		}
-		alert(JSON.stringify(data, null, 2));
 		// Запрос на сервер на регистрацию пользователя
 		axios
 			.post("http://localhost:4444/registr", data)

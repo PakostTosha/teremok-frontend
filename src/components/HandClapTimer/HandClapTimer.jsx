@@ -4,7 +4,6 @@ function HandClapTimer({ timeCount, setActiveComponent }) {
 	// состояние таймера
 	const [seconds, setSeconds] = useState(timeCount);
 	const [isActive, setIsActive] = useState(false);
-	const [title, setTitle] = useState("Начать");
 	// таймер через useEffect с функцией очистки
 	useEffect(() => {
 		let interval = null;
@@ -25,7 +24,8 @@ function HandClapTimer({ timeCount, setActiveComponent }) {
 	return (
 		<div className="hand-clap-timer">
 			<h1 className="title">
-				Давай вместе похлопаем в ладоши {timeCount} секунд!
+				Молодец, ты решил задание, но с подсказкой. Давай похлопаем {timeCount} сек
+				в ладоши, а затем решим эту же задачу заново!
 			</h1>
 			<div className="wrapper">
 				<p className={`time ${seconds === 0 ? "end" : "start"}`}>

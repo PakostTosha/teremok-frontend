@@ -14,6 +14,47 @@ import CardGreeting from "../../components/CardGreeting/CardGreeting.jsx";
 import Cartoon from "../../components/Cartoon/Cartoon.jsx";
 import HandClapTimer from "../../components/HandClapTimer/HandClapTimer.jsx";
 
+// Массив карточек на выбор
+const cardsImgs = [
+	{ id: 1, src: card1, alt: "Card 1" },
+	{ id: 2, src: card2, alt: "Card 2" },
+	{ id: 3, src: card3, alt: "Card 3" },
+	{ id: 4, src: card4, alt: "Card 4" },
+	{ id: 5, src: card5, alt: "Card 5" },
+];
+
+// Массив заданий
+const tasksList = [
+	{
+		type: "Сложение",
+		variants: [
+			{ firstNum: 1, secondNum: null, result: 4, help: [1, 3, 4] },
+			{ firstNum: 2, secondNum: 3, result: null, help: [2, 3, 5] },
+			{ firstNum: 4, secondNum: null, result: 6, help: [4, 2, 6] },
+			{ firstNum: null, secondNum: 3, result: 4, help: [1, 3, 4] },
+			{ firstNum: 6, secondNum: 2, result: null, help: [6, 2, 8] },
+		],
+	},
+	{
+		type: "Вычитание",
+		variants: [
+			{ firstNum: 4, secondNum: null, result: 3, help: [4, 1, 3] },
+			{ firstNum: 6, secondNum: 2, result: null, help: [6, 2, 4] },
+			{ firstNum: null, secondNum: 3, result: 2, help: [5, 3, 2] },
+			{ firstNum: 4, secondNum: 2, result: null, help: [4, 2, 2] },
+			{ firstNum: null, secondNum: 3, result: 3, help: [6, 3, 3] },
+		],
+	},
+	{
+		type: "Порядковый счёт",
+		variants: [],
+	},
+	{
+		type: "Состав числа",
+		variants: [],
+	},
+];
+
 function Trainer() {
 	// Отображаемый компонент
 	const [activeComponent, setActiveComponent] = useState("TrainerInit");
@@ -21,54 +62,12 @@ function Trainer() {
 	const [selectedChild, setSelectedChild] = useState(null);
 	// Выбранный тип задачи "Сложение" = 0/"Вычитание" = 1/"Порядковый счёт" = 2/"Состав числа" = 3
 	const [selectedTypeTask, setSelectedTaskType] = useState(null);
-	// Текущее задание по номеру из банка заданий
-	const [currentTask, setCurrentTask] = useState(null);
 	// Выбранные карточки
 	const [selectedCards, setSelectedCards] = useState([-1, -1, -1, -1, -1]);
 	// Текущая итерация из банка мат.выражений (от 0 до 4)
 	const [iteration, setIteration] = useState(0);
 
 	const { user } = useAuth();
-
-	// Массив карточек на выбор
-	const cardsImgs = [
-		{ id: 1, src: card1, alt: "Card 1" },
-		{ id: 2, src: card2, alt: "Card 2" },
-		{ id: 3, src: card3, alt: "Card 3" },
-		{ id: 4, src: card4, alt: "Card 4" },
-		{ id: 5, src: card5, alt: "Card 5" },
-	];
-	// Массив заданий
-	const tasksList = [
-		{
-			type: "Сложение",
-			variants: [
-				{ firstNum: 1, secondNum: null, result: 4, help: [1, 3, 4] },
-				{ firstNum: 2, secondNum: 3, result: null, help: [2, 3, 5] },
-				{ firstNum: 4, secondNum: null, result: 6, help: [4, 2, 6] },
-				{ firstNum: null, secondNum: 3, result: 4, help: [1, 3, 4] },
-				{ firstNum: 6, secondNum: 2, result: null, help: [6, 2, 8] },
-			],
-		},
-		{
-			type: "Вычитание",
-			variants: [
-				{ firstNum: 4, secondNum: null, result: 3, help: [4, 1, 3] },
-				{ firstNum: 6, secondNum: 2, result: null, help: [6, 2, 4] },
-				{ firstNum: null, secondNum: 3, result: 2, help: [5, 3, 2] },
-				{ firstNum: 4, secondNum: 2, result: null, help: [4, 2, 2] },
-				{ firstNum: null, secondNum: 3, result: 3, help: [6, 3, 3] },
-			],
-		},
-		{
-			type: "Порядковый счёт",
-			variants: [],
-		},
-		{
-			type: "Состав числа",
-			variants: [],
-		},
-	];
 
 	// Переключатель между компонентами
 	let displayedComponent;

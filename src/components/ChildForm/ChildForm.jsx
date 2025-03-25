@@ -120,11 +120,14 @@ function ChildForm({ mode, setTypeUserForm, selectedChild }) {
 		) {
 			setIsLoading(true);
 			await axios
-				.delete(`http://localhost:4444/deleteChild/${selectedChild._id}`, {
-					headers: {
-						Authorization: window.localStorage.getItem("Authorization"),
-					},
-				})
+				.delete(
+					`http://localhost:4444/deleteChild/${selectedChild._id}/${selectedChild.parentId}`,
+					{
+						headers: {
+							Authorization: window.localStorage.getItem("Authorization"),
+						},
+					}
+				)
 				.then((res) => {
 					if (res.statusText === "OK") {
 						alert("Данные ребёнка успешно удалены!");

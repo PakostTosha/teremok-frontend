@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import TaskInput from "../TaskInput/TaskInput";
 import appleImg from "../../img/apple.svg";
-import { array } from "yup";
 
 function Task({
 	mathExpressions,
@@ -101,26 +100,19 @@ function Task({
 					setCurrentExpression(mathExpressions.variants[iteration + 1]);
 				}
 			} else {
-				// со 2 или 3 попытки
-				alert(
-					"Молодец, ты решил задание, но с подсказкой. Давай похлопаем 30 сек в ладоши, а затем решим эту же задачу заново"
-				);
 				setTryCount(0);
 				reset();
 				setActiveComponent("Timer");
 			}
 		} else {
-			alert("Неправильно!");
 			reset();
 			// Переключение попыток
 			switch (tryCount) {
 				case 0:
 					setTryCount(tryCount + 1);
-					console.log("Подсказка №1");
 					break;
 				case 1:
 					setTryCount(tryCount + 1);
-					console.log("Подсказка №2");
 					break;
 				default:
 					break;
