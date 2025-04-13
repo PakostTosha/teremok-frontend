@@ -9,7 +9,7 @@
 ## Стэк
 - ReactJS
 - TypeScript
-- CSS
+- CSS, SCSS
 - Axios
 - ReactRouterDOM
 - React Hook Form
