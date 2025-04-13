@@ -1,4 +1,4 @@
-# StarWars
+# Teremok
 Веб-приложение (клиентская часть) с интерактивным тренажёром по математике
 
 ## Ключевые моменты
@@ -8,13 +8,15 @@
 
 ## Стэк
 - ReactJS
-- CSS (vanila)
+- TypeScript
+- CSS
 - Axios
 - ReactRouterDOM
-- MaterialUI
-- Vite
-- Yarn
+- React Hook Form
+- Webpack
+- npm
 - Git
+- ...
 
 ## Состояние
 Разработка...
